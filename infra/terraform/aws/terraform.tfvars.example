@@ -1,0 +1,87 @@
+# OpenClaw AWS Terraform Variables
+# Copy this file to terraform.tfvars and customize for your environment
+
+# ============================================================================
+# General Configuration
+# ============================================================================
+
+environment = "dev"
+aws_region  = "us-east-1"
+
+# ============================================================================
+# Network Configuration
+# ============================================================================
+
+vpc_cidr                 = "10.0.0.0/16"
+availability_zones_count = 2
+
+# ============================================================================
+# Compute Configuration
+# ============================================================================
+
+# GPU instance type for running Llama
+# g5.xlarge  - 1 GPU, 24GB VRAM, good for 8B models
+# g5.2xlarge - 1 GPU, 24GB VRAM, more CPU/RAM
+# g5.12xlarge - 4 GPUs, good for 70B models
+# g5.48xlarge - 8 GPUs, good for 70B-405B models
+instance_type = "g5.xlarge"
+
+# Enable spot instances for up to 90% cost savings
+# Note: Spot instances can be interrupted with 2 min warning
+enable_spot_instances = true
+spot_max_price        = "" # Empty = up to on-demand price
+
+# Cluster capacity
+min_capacity     = 1
+max_capacity     = 3
+desired_capacity = 1
+
+# ============================================================================
+# Llama Model Configuration
+# ============================================================================
+
+# Available models:
+# llama-3.2-1b  - Smallest, fastest (8GB VRAM)
+# llama-3.2-3b  - Small, fast (12GB VRAM)
+# llama-3.1-8b  - Medium, balanced (16GB VRAM) [recommended]
+# llama-3.1-70b - Large, high quality (140GB VRAM)
+# llama-3.1-405b - Largest, best quality (multiple nodes)
+llama_model = "llama-3.1-8b"
+
+# Quantization reduces memory requirements at slight quality cost
+# none - Full precision (best quality)
+# int8 - 8-bit quantization (good balance)
+# int4 - 4-bit quantization (lowest memory)
+model_quantization = "none"
+
+# ============================================================================
+# Application Configuration
+# ============================================================================
+
+app_port          = 8080
+health_check_path = "/health"
+container_cpu     = 2048  # 2 vCPUs
+container_memory  = 8192  # 8 GB
+
+# ============================================================================
+# Security Configuration
+# ============================================================================
+
+# Restrict access to specific IP ranges (recommended for non-public deployments)
+allowed_cidr_blocks = ["0.0.0.0/0"]
+
+# Enable AWS WAF for additional protection
+enable_waf = false
+
+# ACM certificate ARN for HTTPS (leave empty for HTTP only)
+ssl_certificate_arn = ""
+
+# ============================================================================
+# Monitoring Configuration
+# ============================================================================
+
+enable_container_insights = true
+log_retention_days        = 30
+
+# Email for CloudWatch alarms (leave empty to disable)
+alarm_email = ""

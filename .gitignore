@@ -1,0 +1,61 @@
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+*.tfvars
+!*.tfvars.example
+.terraform.lock.hcl
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
+env/
+
+# Node.js
+node_modules/
+npm-debug.log
+
+# Docker
+.docker/
+
+# Secrets (never commit these)
+*.pem
+*.key
+secrets/
+credentials/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/
+
+# Model files (too large for git)
+*.bin
+*.safetensors
+*.gguf
+models/
