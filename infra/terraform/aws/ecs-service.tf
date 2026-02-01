@@ -97,6 +97,14 @@ resource "aws_ecs_task_definition" "openclaw" {
         }
       ]
 
+      # Secrets from AWS Secrets Manager (injected securely at runtime)
+      secrets = [
+        {
+          name      = "ANTHROPIC_API_KEY"
+          valueFrom = "${aws_secretsmanager_secret.anthropic_api_key.arn}:ANTHROPIC_API_KEY::"
+        }
+      ]
+
       # GPU resource requirements
       resourceRequirements = [
         {
