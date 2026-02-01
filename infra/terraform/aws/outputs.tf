@@ -86,6 +86,20 @@ output "ecs_execution_role_arn" {
 }
 
 # ============================================================================
+# Secrets Manager Outputs
+# ============================================================================
+
+output "anthropic_api_key_secret_arn" {
+  description = "ARN of the Anthropic API key secret in Secrets Manager"
+  value       = aws_secretsmanager_secret.anthropic_api_key.arn
+}
+
+output "anthropic_api_key_secret_name" {
+  description = "Name of the Anthropic API key secret"
+  value       = aws_secretsmanager_secret.anthropic_api_key.name
+}
+
+# ============================================================================
 # Monitoring Outputs
 # ============================================================================
 
@@ -117,16 +131,21 @@ output "next_steps" {
     Infrastructure deployed successfully!
 
     Next steps:
-    1. Build and push the Docker image:
+    1. Set the Anthropic API key in Secrets Manager:
+       aws secretsmanager put-secret-value \
+         --secret-id ${aws_secretsmanager_secret.anthropic_api_key.name} \
+         --secret-string '{"ANTHROPIC_API_KEY":"sk-ant-your-actual-key"}'
+
+    2. Build and push the Docker image:
        ./infra/scripts/deploy.sh build
 
-    2. Deploy the application:
+    3. Deploy the application:
        ./infra/scripts/deploy.sh deploy
 
-    3. Access the application at:
+    4. Access the application at:
        ${aws_lb.main.dns_name}
 
-    4. View logs:
+    5. View logs:
        aws logs tail ${aws_cloudwatch_log_group.openclaw.name} --follow
   EOT
 }
