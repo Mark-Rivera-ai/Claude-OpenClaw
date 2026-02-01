@@ -170,3 +170,28 @@ resource "aws_cloudwatch_metric_alarm" "unhealthy_tasks" {
     Name = "${local.name_prefix}-unhealthy-alarm"
   }
 }
+
+# ============================================================================
+# Claude API Budget Alarm (only when using Claude)
+# ============================================================================
+
+resource "aws_cloudwatch_metric_alarm" "claude_budget_warning" {
+  count = var.use_claude ? 1 : 0
+
+  alarm_name          = "${local.name_prefix}-claude-budget-warning"
+  comparison_operator = "GreaterThanThreshold"
+  evaluation_periods  = 1
+  metric_name         = "MonthlyBudgetUtilization"
+  namespace           = "OpenClaw/Costs"
+  period              = 300
+  statistic           = "Maximum"
+  threshold           = 80
+  alarm_description   = "Claude API budget utilization has exceeded 80%"
+
+  alarm_actions = var.alarm_email != "" ? [aws_sns_topic.alarms[0].arn] : []
+  ok_actions    = var.alarm_email != "" ? [aws_sns_topic.alarms[0].arn] : []
+
+  tags = {
+    Name = "${local.name_prefix}-claude-budget-warning"
+  }
+}

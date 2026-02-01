@@ -94,6 +94,19 @@ resource "aws_ecs_task_definition" "openclaw" {
         {
           name  = "AWS_REGION"
           value = var.aws_region
+        },
+        # Claude API toggle (set to "true" to use Claude instead of Llama)
+        {
+          name  = "USE_CLAUDE"
+          value = var.use_claude ? "true" : "false"
+        },
+        {
+          name  = "CLAUDE_MODEL"
+          value = "claude-sonnet-4-20250514"
+        },
+        {
+          name  = "MONTHLY_BUDGET_USD"
+          value = tostring(var.claude_monthly_budget_usd)
         }
       ]
 

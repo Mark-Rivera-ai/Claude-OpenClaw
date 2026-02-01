@@ -27,6 +27,9 @@ python-dotenv>=1.0.0
 httpx>=0.25.0
 tenacity>=8.2.0
 
+# Claude API (optional, for USE_CLAUDE=true)
+anthropic>=0.39.0
+
 # Monitoring & Logging
 structlog>=23.2.0
 prometheus-client>=0.19.0

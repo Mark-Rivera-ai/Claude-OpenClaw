@@ -170,6 +170,22 @@ variable "ssl_certificate_arn" {
 }
 
 # ============================================================================
+# Claude API Configuration
+# ============================================================================
+
+variable "use_claude" {
+  description = "Use Claude API instead of self-hosted Llama model"
+  type        = bool
+  default     = false
+}
+
+variable "claude_monthly_budget_usd" {
+  description = "Monthly budget in USD for Claude API usage (only applies when use_claude = true)"
+  type        = number
+  default     = 50
+}
+
+# ============================================================================
 # Monitoring Configuration
 # ============================================================================
 
